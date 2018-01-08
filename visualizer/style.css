@@ -729,10 +729,26 @@ svg#toggle-theme {
   fill: none;
   stroke: var(--graph-good-line-color);
   stroke-width: 2px;
+  stroke-linejoin: round;
+  opacity: 0.6;
 }
 
 #graph .sub-graph .chart .line.bad {
   stroke: var(--graph-bad-line-color);
+}
+
+#graph .sub-graph .chart .point {
+  stroke: none;
+  fill: var(--graph-good-line-color);
+}
+
+#graph .sub-graph .chart .bad .point {
+  fill: var(--graph-bad-line-color);
+}
+
+#graph .sub-graph .chart .point-set {
+  opacity: 0.4;
+  mix-blend-mode: color-dodge;
 }
 
 #graph .sub-graph .chart .tick line {
