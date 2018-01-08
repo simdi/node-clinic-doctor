@@ -122,13 +122,19 @@ class SubGraph extends EventEmitter {
     // Define drawer functions and line elements
     this.lineDrawers = []
     this.lineElements = []
+    this.linePoints = []
     for (let i = 0; i < this.setup.numLines; i++) {
       const lineDrawer = d3.line()
           .x((d) => this.xScale(d.x))
           .y((d) => this.yScale(d.y[i]))
       this.lineDrawers.push(lineDrawer)
 
-      const lineElement = this.graph.append('path')
+      const pointSet = this.graph.append('g')
+        .attr("class", "point-set")
+      this.linePoints.push( pointSet )
+
+      // prepend line before points so they can highlight the line
+      const lineElement = this.graph.insert('path', '.point-set')
           .attr('class', 'line')
           .attr('stroke-dasharray', this.setup.lineStyle[i])
 
@@ -168,8 +174,17 @@ class SubGraph extends EventEmitter {
     for (let i = 0; i < this.setup.numLines; i++) {
       this.lineElements[i].data([data])
 
+      this.linePoints[i]
+        .selectAll('.point')
+        .data(data)
+        .enter()
+        .append('circle')
+        .attr("class", "point")
+        .attr("r", 1.5)
+
       // Modify css classes for lines, title icon
       this.lineElements[i].classed('bad', issues[i])
+      this.linePoints[i].classed('bad', issues[i])
       if (this.setup.showLegend) {
         this.legendItems[i].classed('bad', issues[i])
       }
@@ -212,12 +227,20 @@ class SubGraph extends EventEmitter {
     // update lines
     for (let i = 0; i < this.setup.numLines; i++) {
       this.lineElements[i].attr('d', this.lineDrawers[i])
+      this.drawPoints( this.linePoints[i], i )
     }
 
     // since the xScale was changed, update the hover box
     if (this.hover.showen) {
       this.hoverUpdate(this.hover.point)
     }
+  }
+
+  // takes a path and adds points to each corner
+  drawPoints ( group, lineIndex ) {
+    group.selectAll('.point')
+      .attr('cx', (d)=>{ return this.xScale(d.x) } )
+      .attr('cy', (d)=>{ return this.yScale(d.y[lineIndex])} )
   }
 
   hoverShow () {
