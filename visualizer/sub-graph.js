@@ -131,7 +131,7 @@ class SubGraph extends EventEmitter {
 
       const pointSet = this.graph.append('g')
         .attr("class", "point-set")
-      this.linePoints.push( pointSet )
+      this.linePoints.push(pointSet)
 
       // prepend line before points so they can highlight the line
       const lineElement = this.graph.insert('path', '.point-set')
@@ -227,7 +227,7 @@ class SubGraph extends EventEmitter {
     // update lines
     for (let i = 0; i < this.setup.numLines; i++) {
       this.lineElements[i].attr('d', this.lineDrawers[i])
-      this.drawPoints( this.linePoints[i], i )
+      this.drawPoints(this.linePoints[i], i)
     }
 
     // since the xScale was changed, update the hover box
@@ -237,10 +237,10 @@ class SubGraph extends EventEmitter {
   }
 
   // takes a path and adds points to each corner
-  drawPoints ( group, lineIndex ) {
+  drawPoints (group, lineIndex) {
     group.selectAll('.point')
-      .attr('cx', (d)=>{ return this.xScale(d.x) } )
-      .attr('cy', (d)=>{ return this.yScale(d.y[lineIndex])} )
+      .attr('cx', d => this.xScale(d.x))
+      .attr('cy', d => this.yScale(d.y[lineIndex]))
   }
 
   hoverShow () {
