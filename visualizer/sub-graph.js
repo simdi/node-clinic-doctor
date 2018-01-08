@@ -127,6 +127,8 @@ class SubGraph extends EventEmitter {
       const lineDrawer = d3.line()
           .x((d) => this.xScale(d.x))
           .y((d) => this.yScale(d.y[i]))
+          .curve(d3[this.setup.interpolation || 'curveLinear'])
+
       this.lineDrawers.push(lineDrawer)
 
       const pointSet = this.graph.append('g')
