@@ -747,7 +747,7 @@ svg#toggle-theme {
 }
 
 #graph .sub-graph .chart .point-set {
-  opacity: 0.4;
+  opacity: 0.7;
   mix-blend-mode: color-dodge;
 }
 

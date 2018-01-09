@@ -181,8 +181,8 @@ class SubGraph extends EventEmitter {
         .data(data)
         .enter()
         .append('circle')
-        .attr('class', 'point')
         .attr('r', 1.5)
+        .attr('class', 'point')
 
       // Modify css classes for lines, title icon
       this.lineElements[i].classed('bad', issues[i])
