@@ -132,7 +132,7 @@ class SubGraph extends EventEmitter {
       this.lineDrawers.push(lineDrawer)
 
       const pointSet = this.graph.append('g')
-        .attr("class", "point-set")
+        .attr('class', 'point-set')
       this.linePoints.push(pointSet)
 
       // prepend line before points so they can highlight the line
@@ -181,8 +181,8 @@ class SubGraph extends EventEmitter {
         .data(data)
         .enter()
         .append('circle')
-        .attr("class", "point")
-        .attr("r", 1.5)
+        .attr('class', 'point')
+        .attr('r', 1.5)
 
       // Modify css classes for lines, title icon
       this.lineElements[i].classed('bad', issues[i])

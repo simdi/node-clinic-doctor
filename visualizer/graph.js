@@ -30,7 +30,7 @@ class Graph extends EventEmitter {
       longLegend: ['RSS', 'Total Heap Allocated', 'Heap Used'],
       shortLegend: ['RSS', 'THA', 'HU'],
       showLegend: true,
-      lineStyle: ['1, 1', '4, 1', ''],
+      lineStyle: ['1.2, 0.8', '4.2, 0.8', ''],
       numLines: 3,
       ymin: 0
     })
