@@ -24,8 +24,11 @@ class RecomendationWrapper {
           .append('li')
           .classed('article-menu-item', true)
           .text((headerElement) => headerElement.textContent)
-          .on('click', function (headerElement) {
-            console.log(headerElement)
+          .on('click', function (_, headerIndex) {
+            // Unfortunetly we have to do a cloneNode() when getting the
+            // readMore content. This the headerElement isn't the same <h2>
+            // as the one in the DOM. To get around that use the headerIndex.
+            const headerElement = document.querySelectorAll('#article-content h2')[headerIndex]
             headerElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
           })
     }
@@ -40,7 +43,7 @@ class RecomendationWrapper {
   hasSummary () { return this.content.hasSummary() }
   getReadMore () { return this.content.getReadMore() }
   hasReadMore () { return this.content.hasReadMore() }
-  getArticleMenu() { return this.articleMenu.cloneNode(true) }
+  getArticleMenu() { return this.articleMenu }
 }
 
 class Recomendation extends EventEmitter {
@@ -83,11 +86,9 @@ class Recomendation extends EventEmitter {
       .classed('read-more', true)
     this.readMoreNaviation = this.readMore.append('div')
       .classed('navigation', true)
-    this.readMoreNaviation.append('h2')
-      .text('Jump to section')
-    this.readMoreNaviationList = this.readMoreNaviation.append('ul')
     this.readMoreArticle = this.readMore.append('div')
       .classed('article', true)
+      .attr('id', 'article-content')
 
     this.pages = this.menu.append('ul')
     const pagesLiEnter = this.pages
@@ -168,11 +169,13 @@ class Recomendation extends EventEmitter {
     }
 
     this.readMoreArticle.html(null)
-    this.readMoreNaviationList.html(null)
+    this.readMoreNaviation.html(null)
     this.container.classed('has-read-more', recommendation.hasReadMore())
     if (recommendation.hasReadMore()) {
       this.readMoreArticle.node().appendChild(recommendation.getReadMore())
-      this.readMoreNaviationList.node().appendChild(recommendation.getArticleMenu())
+
+      this.readMoreNaviation.append('h2').text('Jump to section')
+      this.readMoreNaviation.node().appendChild(recommendation.getArticleMenu())
     }
 
     // set space height such that the fixed element don't have to hide
