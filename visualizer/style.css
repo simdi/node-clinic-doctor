@@ -83,7 +83,7 @@ html, body {
 
 body {
   background: var(--main-bg-color);
-  overflow-x: hidden; /* Hover box padding can overflow. Scrollbar appearing moves recommendation box. */ 
+  overflow-x: hidden; /* Hover box padding can overflow. Scrollbar appearing moves recommendation box. */
                       /* If that causes mouse to leave hover area, scrollbar flashes on and off in loop. */
 }
 
@@ -389,12 +389,20 @@ svg#toggle-theme {
 #recommendation .details .content .read-more {
   display: none;
   flex: 0 1 auto;
-  overflow-y: scroll;
-  min-height: 0px; /* make auto be the available space instead of content space */
-  padding-right: 7px;
+  justify-content: center;
 }
-#recommendation.read-more-open .details .content .read-more {
-  display: block;
+#recommendation.read-more-open.has-read-more .details .content .read-more {
+  display: flex;
+}
+
+#recommendation .details .content .read-more .navigation {
+  max-width: 300px;
+  margin-right: 40px;
+}
+
+#recommendation .details .content .read-more .article {
+  max-width: 550px;
+  overflow-y: scroll;
 }
 
 /* change the scroll area to be the entire content if the screen-size is
@@ -479,13 +487,7 @@ svg#toggle-theme {
   display: block;
 }
 
-#recommendation .content .read-more .columns {
-  columns: 400px 4;
-  text-align: justify;
-  hyphens: auto;
-}
-
-#recommendation .content .read-more h2 {
+#recommendation .content .read-more .article h2 {
   background: var(--recommend-title-bg-color);
   font-size: 12pt;
   padding: 12px;
@@ -494,8 +496,29 @@ svg#toggle-theme {
   margin: 0; /* let p and ul tags dominate margin collapse */
 }
 
-#recommendation .content .read-more li {
+#recommendation .content .read-more .article li {
   orphans: 4;
+}
+
+#recommendation .content .read-more .navigation h2 {
+  font-size: 12pt;
+  padding: 12px;
+  margin: 0 0 1em 0;
+}
+
+#recommendation .content .read-more .navigation ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#recommendation .content .read-more .navigation li {
+  display: block;
+  cursor: pointer;
+  background: var(--recommend-title-bg-color);
+  font-size: 12pt;
+  padding: 12px;
+  margin-bottom: 6px;
 }
 
 #recommendation .menu {

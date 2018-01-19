@@ -14,6 +14,21 @@ class RecomendationWrapper {
 
     this.selected = false
     this.detected = false
+
+    this.articleMenu = document.createElement('ul')
+    if (this.hasReadMore()) {
+      d3.select(this.articleMenu)
+        .selectAll('li')
+        .data(Array.from(this.getReadMore().querySelectorAll('h2')))
+        .enter()
+          .append('li')
+          .classed('article-menu-item', true)
+          .text((headerElement) => headerElement.textContent)
+          .on('click', function (headerElement) {
+            console.log(headerElement)
+            headerElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+          })
+    }
   }
 
   get order () {
@@ -25,6 +40,7 @@ class RecomendationWrapper {
   hasSummary () { return this.content.hasSummary() }
   getReadMore () { return this.content.getReadMore() }
   hasReadMore () { return this.content.hasReadMore() }
+  getArticleMenu() { return this.articleMenu.cloneNode(true) }
 }
 
 class Recomendation extends EventEmitter {
@@ -65,8 +81,13 @@ class Recomendation extends EventEmitter {
       .on('click', () => this.emit(this.readMoreOpened ? 'less' : 'more'))
     this.readMore = this.content.append('div')
       .classed('read-more', true)
-    this.readMoreColumns = this.readMore.append('div')
-      .classed('columns', true)
+    this.readMoreNaviation = this.readMore.append('div')
+      .classed('navigation', true)
+    this.readMoreNaviation.append('h2')
+      .text('Jump to section')
+    this.readMoreNaviationList = this.readMoreNaviation.append('ul')
+    this.readMoreArticle = this.readMore.append('div')
+      .classed('article', true)
 
     this.pages = this.menu.append('ul')
     const pagesLiEnter = this.pages
@@ -146,10 +167,12 @@ class Recomendation extends EventEmitter {
       this.summary.node().appendChild(recommendation.getSummary())
     }
 
-    this.readMoreColumns.html(null)
+    this.readMoreArticle.html(null)
+    this.readMoreNaviationList.html(null)
     this.container.classed('has-read-more', recommendation.hasReadMore())
     if (recommendation.hasReadMore()) {
-      this.readMoreColumns.node().appendChild(recommendation.getReadMore())
+      this.readMoreArticle.node().appendChild(recommendation.getReadMore())
+      this.readMoreNaviationList.node().appendChild(recommendation.getArticleMenu())
     }
 
     // set space height such that the fixed element don't have to hide
