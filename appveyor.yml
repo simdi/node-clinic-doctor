@@ -25,7 +25,7 @@ cache:
 configuration: build-lint-test
 
 test_script:
-  - npm run ci-test; ls
+  - bash -c 'npm run ci-test; ls'
 
 # Do not build feature branch with open Pull Requests
 skip_branch_with_pr: true
